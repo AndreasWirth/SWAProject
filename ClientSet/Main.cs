@@ -24,6 +24,9 @@ namespace Client
         {
             try
             {
+                // server muss zuvor gestartet werden
+                // im bin/debug ordner manuell starten
+                // !!!!! WICHTIG!!!! als Administrator ausführen!!!!!!!!
                 // connect to the service with channelFactory
                 ChannelFactory<IRemoteGetSet> cFactory;
                 cFactory = new ChannelFactory<IRemoteGetSet>("WSHttpBinding_HWManager"); // endpoint
