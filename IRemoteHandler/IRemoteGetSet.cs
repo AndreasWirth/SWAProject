@@ -11,15 +11,21 @@ namespace IRemoteHandler
     public interface IRemoteGetSet
     {
         [OperationContract]
-        bool isInitialized();
+        bool GetChannel();
 
         [OperationContract]
-        bool SetValue( string value);
+        bool SetChannel();
 
         [OperationContract]
-        string GetValue();
+        string GetParameterList();
 
         [OperationContract]
-        bool Initialize();
+        bool SendCommand();
+
+        [OperationContract]
+        bool CheckDevice();
+
+        [OperationContract]
+        bool GetDeviceList();
     }
 }

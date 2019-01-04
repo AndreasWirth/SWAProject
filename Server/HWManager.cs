@@ -16,7 +16,7 @@ namespace Storage   //changed namespace, because its managed from host
         #endregion
 
         #region ctor
-        public ValueManager()
+        public HWManager()
         {
             Console.WriteLine("\nValueManager constructed");
 
@@ -26,40 +26,39 @@ namespace Storage   //changed namespace, because its managed from host
         #endregion
 
         #region Internal Methodes
-         // no methodes needed
+        // no methodes needed
         #endregion
 
         #region interface methodes
-        public string GetValue()
+
+        public bool SendCommand()
         {
-            return storage;
+            throw new NotImplementedException();
         }
 
-        public bool Initialize()
+        public bool SetChannel()
         {
-            // not needet in this project
-            // data could be loaded or calculated
-            storage = "this is my first value";
-            initialized = true;
-
-            return true;
+            throw new NotImplementedException();
         }
 
-        public bool isInitialized()
+        public bool CheckDevice()
         {
-            return initialized;
+            throw new NotImplementedException();
         }
 
-        public bool SetValue(string value)
+        public bool GetChannel()
         {
-            storage = value;
-            if (initialized == false)
-            {
-                initialized = true;
-            }
+            throw new NotImplementedException();
+        }
 
-            Console.WriteLine("Got new Value: \n" + value);
-            return true;
+        public bool GetDeviceList()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetParameterList()
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }

@@ -27,10 +27,10 @@ namespace Client
                 m_remote = cFactory.CreateChannel();
 
                 //initialize
-                if (!m_remote.isInitialized())
+                if (!m_remote.GetChannel())
                 {
                     MessageBox.Show("Initializing the server");
-                    m_remote.Initialize(); // doesn't has to be inizialized but do it for practice
+                    m_remote.GetChannel(); // doesn't has to be inizialized but do it for practice
                 }
                 else
                 {
@@ -52,12 +52,12 @@ namespace Client
 
         private void btnStore_Click(object sender, EventArgs e)
         {
-            m_remote.SetValue(tbValue.Text);
+            m_remote.GetChannel();
         }
 
         private void btnRead_Click(object sender, EventArgs e)
         {
-            tbShowValue.Text = m_remote.GetValue();
+            //tbShowValue.Text = m_remote.SendCommand();
         }
 
         private void Form1_Load(object sender, EventArgs e)
