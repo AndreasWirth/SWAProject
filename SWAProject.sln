@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{E4EE469E-19E4-44D7-A1A9-B68B99889C58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IRemoteHandler", "IRemoteHandler\IRemoteHandler.csproj", "{AC0EB480-BE0A-450C-A2CF-1585D7EE6CAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "ClientSet\Client.csproj", "{4B62173E-2682-4BF5-84BC-CBE56FE5C503}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E4EE469E-19E4-44D7-A1A9-B68B99889C58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4EE469E-19E4-44D7-A1A9-B68B99889C58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4EE469E-19E4-44D7-A1A9-B68B99889C58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4EE469E-19E4-44D7-A1A9-B68B99889C58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC0EB480-BE0A-450C-A2CF-1585D7EE6CAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC0EB480-BE0A-450C-A2CF-1585D7EE6CAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC0EB480-BE0A-450C-A2CF-1585D7EE6CAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC0EB480-BE0A-450C-A2CF-1585D7EE6CAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B62173E-2682-4BF5-84BC-CBE56FE5C503}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B62173E-2682-4BF5-84BC-CBE56FE5C503}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B62173E-2682-4BF5-84BC-CBE56FE5C503}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B62173E-2682-4BF5-84BC-CBE56FE5C503}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2C1B706C-4855-42A8-B972-E146841285AC}
+	EndGlobalSection
+EndGlobal
