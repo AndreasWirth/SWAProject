@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ServiceModel; // for WCF - need Verweis
+using IRemoteHandler;
 
 namespace Storage   //changed namespace, because its managed from host
 {
@@ -11,55 +12,150 @@ namespace Storage   //changed namespace, because its managed from host
     class HWManager : IRemoteHandler.IRemoteGetSet
     {
         #region DataMembers
-        private string storage;
-        private bool initialized;
+        private List<Parameter> WritableParamters;
+        private List<Parameter> ReadableParameter;
+        private List<Parameter> Commands;
+        private List<Parameter> DeviceList;
+
+        private int ActualKey;
         #endregion
 
         #region ctor
         public HWManager()
         {
-            Console.WriteLine("\nValueManager constructed");
-
-            initialized = false;
-            storage = null;
+            Console.WriteLine("\nHWManager constructed");
+            LoadTestParameter();
+            Console.WriteLine("\nParameter loaded");
         }
+
+
         #endregion
 
         #region Internal Methodes
         // no methodes needed
+        private void LoadTestParameter()
+        {
+            WritableParamters = new List<Parameter>();
+            WritableParamters.Add(new Parameter("1", 30000, "Prüfspannung"));
+            WritableParamters.Add(new Parameter("2", 300, "Prüfzeit"));
+            WritableParamters.Add(new Parameter("3", true, "Abschneidestrecke automatisch einstellen"));
+            WritableParamters.Add(new Parameter("4", false, "Polaritätsvorwahl"));
+            WritableParamters.Add(new Parameter("5", false, "Ladespannung"));
+
+            ReadableParameter = new List<Parameter>();
+            ReadableParameter.Add(new Parameter("1", 0, "H/W Ready Modus ist aktiv"));
+            ReadableParameter.Add(new Parameter("2", 0, "H/W Operate Modus ist aktiv "));
+            ReadableParameter.Add(new Parameter("3", 20, "Primärstrom"));
+            ReadableParameter.Add(new Parameter("4", 50, "Aktuelle Prüfzeit"));
+            ReadableParameter.Add(new Parameter("5", true, "Polarität des Generators"));
+            ReadableParameter.Add(new Parameter("6", false, "Einstellend er abschneidestrecke beendet"));
+            ReadableParameter.Add(new Parameter("7", true, "IP Gerät meldet einen Fehler"));
+            ReadableParameter.Add(new Parameter("8", true, "IP Gerät ist im Ready-Modus"));            ReadableParameter.Add(new Parameter("9", true, "IP Gerät ist im Operate-Modus"));
+            ReadableParameter.Add(new Parameter("10", true, "Zündung wurde ausgelöst"));
+            ReadableParameter.Add(new Parameter("11", 20000, "Istwert der Ladespannung"));
+
+            Commands = new List<Parameter>();
+            Commands.Add(new Parameter("1", 0, "Schaltet das Gerät in TestStart"));
+            Commands.Add(new Parameter("2", 1, "Schaltet das Gerät in TestHold"));
+            Commands.Add(new Parameter("3", 2, "Schaltet das Gerät in TestStop"));
+            Commands.Add(new Parameter("4", 4, "Schaltet das Gerät in den Ready Modus"));
+            Commands.Add(new Parameter("5", 5, "Holt das Gerät aus dem Ready Modus"));
+            Commands.Add(new Parameter("6", 6, "Schaltet das Gerät in den Operate Modus"));
+            Commands.Add(new Parameter("7", 7, "Holt das Gerät aus dem Operate Modus"));
+
+            DeviceList = new List<Parameter>();
+            DeviceList.Add(new Parameter("1", 0, "H/W Device"));
+            DeviceList.Add(new Parameter("2", 1, "IP Device"));
+        }
+
+        private int GenerateKey()
+        {
+            return 5;
+        }
         #endregion
 
         #region interface methodes
-
-        public bool SendCommand()
+        public bool CheckDeviceAvailable(int deviceId)
         {
-            throw new NotImplementedException();
+            // check Device with the given device id
+            // ...
+
+
+            return true;
         }
 
-        public bool SetChannel()
+        public List<Parameter> GetActChannelPara()
         {
-            throw new NotImplementedException();
+            // collecting data from Hardware
+            // ...
+            return ReadableParameter;
         }
 
-        public bool CheckDevice()
+        public List<Parameter> GetCommands()
         {
-            throw new NotImplementedException();
+            return Commands;
         }
 
-        public bool GetChannel()
+        public List<Parameter> GetDeviceList()
         {
-            throw new NotImplementedException();
+            return DeviceList;
         }
 
-        public bool GetDeviceList()
+        public int GetKey()
         {
-            throw new NotImplementedException();
+            //TODO: überprüfe ob get key verwendet werden darf
+            ActualKey = GenerateKey();
+            return ActualKey;
         }
 
-        public string GetParameterList()
+        public List<Parameter> GetReadableAbleParameterList()
         {
-            throw new NotImplementedException();
+            return ReadableParameter;
         }
+
+        public List<Parameter> GetWriteAbleParameterList()
+        {
+            return WritableParamters;
+        }
+
+        public int ReleaseKey(int key)
+        {
+            if (key == ActualKey)
+            {
+                ActualKey = 0;
+                return 1;
+            }
+
+            return 0;
+        }
+
+        public string SendCommand(int commandId, int key)
+        {
+            if (key == ActualKey)
+            {
+                StringBuilder s = new StringBuilder();
+                s.Append("Key Accepted");
+
+                // TODO: check if command is correct and add information to string builder or wahtever
+
+                return s.ToString();
+            }
+
+            return "Wrong Key";
+        }
+
+        public bool SetChannelPara(List<Parameter> parameters, int key)
+        {
+            if (key == ActualKey)
+            {
+                // set Parameters on Devices
+                // ....
+                return true;
+            }
+
+            return false;
+        }
+
         #endregion
     }
 }

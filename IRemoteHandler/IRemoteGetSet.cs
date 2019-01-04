@@ -10,22 +10,51 @@ namespace IRemoteHandler
     [ServiceContract]
     public interface IRemoteGetSet
     {
+         //-- Parameter Methodes
         [OperationContract]
-        bool GetChannel();
+        List<Parameter> GetWriteAbleParameterList();
 
         [OperationContract]
-        bool SetChannel();
+        List<Parameter> GetReadableAbleParameterList();
 
         [OperationContract]
-        string GetParameterList();
+        List<Parameter> GetActChannelPara();
 
         [OperationContract]
-        bool SendCommand();
+        bool SetChannelPara(List<Parameter> parameters, int key);
+
+        //-- OperatingCommands
+        [OperationContract]
+        string SendCommand(int commandId, int key);
 
         [OperationContract]
-        bool CheckDevice();
+        List<Parameter> GetCommands();
 
         [OperationContract]
-        bool GetDeviceList();
+        int GetKey();
+
+        [OperationContract]
+        int ReleaseKey(int key);
+
+        //--- Devices
+        [OperationContract]
+        bool CheckDeviceAvailable(int deviceId);
+
+        [OperationContract]
+        List<Parameter> GetDeviceList();
+    }
+
+    public class Parameter
+    {
+        public string ID;
+        public Object Value;
+        public string Beschreibung;
+
+        public Parameter(string id, Object value, string beschreibung)
+        {
+            this.ID = id;
+            this.Value = value;
+            this.Beschreibung = beschreibung;
+        }
     }
 }
