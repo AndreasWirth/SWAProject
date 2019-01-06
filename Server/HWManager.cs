@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ServiceModel; // for WCF - need Verweis
 using IRemoteHandler;
+using System.Timers;
 
 namespace Storage   //changed namespace, because its managed from host
 {
@@ -18,11 +19,18 @@ namespace Storage   //changed namespace, because its managed from host
         private List<Parameter> DeviceList;
 
         private int ActualKey;
+
+        private Timer ResetTimer;
         #endregion
 
         #region ctor
         public HWManager()
         {
+            // Create a timer with a 20 second interval.
+            ResetTimer = new Timer(20000);
+            // Hook up the Elapsed event for the timer. 
+            ResetTimer.Elapsed += OnTimedEvent;
+            ResetTimer.AutoReset = false;
             Console.WriteLine("\nHWManager constructed");
             LoadTestParameter();
             Console.WriteLine("\nParameter loaded");
@@ -32,7 +40,13 @@ namespace Storage   //changed namespace, because its managed from host
         #endregion
 
         #region Internal Methodes
-        // no methodes needed
+        private void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            // Reset Key and stopp timer
+            ResetTimer.Enabled = false;
+            ActualKey = 0;
+        }
+
         private void LoadTestParameter()
         {
             WritableParamters = new List<Parameter>();
@@ -70,6 +84,10 @@ namespace Storage   //changed namespace, because its managed from host
 
         private int GenerateKey()
         {
+            // starting the reset timer
+            ResetTimer.Enabled = true;
+            ResetTimer.Stop();
+            ResetTimer.Start();
             return 5;
         }
         #endregion
