@@ -16,14 +16,16 @@ namespace Server
 
             myHost.Open();
 
+            
             //inforamtion
             Console.WriteLine();
             Console.WriteLine("Waiting for request");
             Console.WriteLine();
             Console.WriteLine();
 
+
             // keeping server open
-            Console.WriteLine("faceroll and enter for closing");
+            Console.WriteLine("enter faceroll for closing");
             Console.ReadLine();
 
             //close the Service

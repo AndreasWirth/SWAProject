@@ -21,6 +21,8 @@ namespace Storage   //changed namespace, because its managed from host
         private int ActualKey;
 
         private Timer ResetTimer;
+
+        private List<IContextChannel> WaitingChannels;
         #endregion
 
         #region ctor
@@ -31,6 +33,7 @@ namespace Storage   //changed namespace, because its managed from host
             // Hook up the Elapsed event for the timer. 
             ResetTimer.Elapsed += OnTimedEvent;
             ResetTimer.AutoReset = false;
+            WaitingChannels = new List<IContextChannel>();
             Console.WriteLine("\nHWManager constructed");
             LoadTestParameter();
             Console.WriteLine("\nParameter loaded");
@@ -64,7 +67,8 @@ namespace Storage   //changed namespace, because its managed from host
             ReadableParameter.Add(new Parameter("5", true, "Polarität des Generators"));
             ReadableParameter.Add(new Parameter("6", false, "Einstellend er abschneidestrecke beendet"));
             ReadableParameter.Add(new Parameter("7", true, "IP Gerät meldet einen Fehler"));
-            ReadableParameter.Add(new Parameter("8", true, "IP Gerät ist im Ready-Modus"));            ReadableParameter.Add(new Parameter("9", true, "IP Gerät ist im Operate-Modus"));
+            ReadableParameter.Add(new Parameter("8", true, "IP Gerät ist im Ready-Modus"));
+            ReadableParameter.Add(new Parameter("9", true, "IP Gerät ist im Operate-Modus"));
             ReadableParameter.Add(new Parameter("10", true, "Zündung wurde ausgelöst"));
             ReadableParameter.Add(new Parameter("11", 20000, "Istwert der Ladespannung"));
 
@@ -88,6 +92,9 @@ namespace Storage   //changed namespace, because its managed from host
             ResetTimer.Enabled = true;
             ResetTimer.Stop();
             ResetTimer.Start();
+
+            var test = OperationContext.Current.Channel;
+            WaitingChannels.Add(test);
             return 5;
         }
         #endregion
