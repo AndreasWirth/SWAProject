@@ -147,9 +147,10 @@ namespace Storage   //changed namespace, because its managed from host
         {
             //TODO: renew time counter for key
 
-            var pos = QueuedFireKeys
+            FireKey resetKey = QueuedFireKeys[key];
+            resetKey.RenewTimer();
 
-            return pos;
+            return 5;
         }
 
         public bool CheckDeviceAvailable(int deviceId)
