@@ -22,7 +22,8 @@ namespace Storage   //changed namespace, because its managed from host
 
         private Timer ResetTimer;
 
-        private List<IContextChannel> WaitingChannels;
+        private List<int> QueuedKeys;
+        private List<FireKey> QueuedFireKeys;
         #endregion
 
         #region ctor
@@ -33,7 +34,6 @@ namespace Storage   //changed namespace, because its managed from host
             // Hook up the Elapsed event for the timer. 
             ResetTimer.Elapsed += OnTimedEvent;
             ResetTimer.AutoReset = false;
-            WaitingChannels = new List<IContextChannel>();
             Console.WriteLine("\nHWManager constructed");
             LoadTestParameter();
             Console.WriteLine("\nParameter loaded");
@@ -93,13 +93,59 @@ namespace Storage   //changed namespace, because its managed from host
             ResetTimer.Stop();
             ResetTimer.Start();
 
-            var test = OperationContext.Current.Channel;
-            WaitingChannels.Add(test);
-            return 5;
+            var key = 5; // Random Generated key
+
+            FireKey test = new FireKey(key, 60000);
+            test.KeyExpired += FireKey_Expired;
+
+            QueuedFireKeys.Add(test);
+            QueuedKeys.Add(key);
+            return key;
+        }
+
+        void FireKey_Expired(object sender, EventArgs e)
+        {
+            var key = (FireKey)sender;
+            DeleateFireKey(key);
+        }
+
+        private void DeleateFireKey(FireKey key)
+        {
+            //var pos = QueuedFireKeys.IndexOf(key);
+            QueuedFireKeys.Remove(key);
         }
         #endregion
 
         #region interface methodes
+        /// <summary>
+        /// return boolean value if a "Fire Key" is activ
+        /// There is a Client currently working on the Server
+        /// </summary>
+        /// <returns>true if active, false if inactive</returns>
+        public bool IsFireKeyActiv()
+        {
+            if (QueuedKeys.Count > 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Updates time boundings for given key
+        /// and returns position in List
+        /// </summary>
+        /// <param name="key">requested fire key</param>
+        /// <returns>position in List</returns>
+        public int RenewFireKey(int key)
+        {
+            //TODO: renew time counter for key
+
+            var pos = QueuedKeys.IndexOf(key);
+
+            return pos;
+        }
+
         public bool CheckDeviceAvailable(int deviceId)
         {
             // check Device with the given device id
@@ -171,13 +217,14 @@ namespace Storage   //changed namespace, because its managed from host
 
         public bool SetChannelPara(List<Parameter> parameters, int key)
         {
+            // if key is not correct update timer for key
             if (key == ActualKey)
             {
                 // set Parameters on Devices
                 // ....
                 return true;
             }
-
+            // retrun false if key is not correct
             return false;
         }
 

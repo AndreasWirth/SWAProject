@@ -4,18 +4,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ServiceModel; // verweis hinzufügen
+using System.Timers;
 
 namespace IRemoteHandler
 {
     [ServiceContract]
     public interface IRemoteGetSet
     {
-         //-- Parameter Methodes
-         /// <summary>
-         /// Returns a List of all Writable Parameters
-         /// Writeable Paramters are Paraemters which can be set by de Client
-         /// </summary>
-         /// <returns></returns>
+        //-- functional Methodes
+        /// <summary>
+        /// return boolean value if a "Fire Key" is activ
+        /// There is a Client currently working on the Server
+        /// </summary>
+        /// <returns>true if active, false if inactive</returns>
+        [OperationContract]
+        bool IsFireKeyActiv();
+        /// <summary>
+        /// Updates time boundings for given key
+        /// and returns position in List
+        /// </summary>
+        /// <param name="key">requested fire key</param>
+        /// <returns>position in List</returns>
+        [OperationContract]
+        int RenewFireKey(int key);
+
+        //-- Parameter Methodes
+        /// <summary>
+        /// Returns a List of all Writable Parameters
+        /// Writeable Paramters are Paraemters which can be set by de Client
+        /// </summary>
+        /// <returns></returns>
         [OperationContract]
         List<Parameter> GetWriteAbleParameterList();
         /// <summary>
@@ -99,6 +117,46 @@ namespace IRemoteHandler
             this.ID = id;
             this.Value = value;
             this.Beschreibung = beschreibung;
+        }
+    }
+
+    public class FireKey
+    {
+        public Timer KeyTimer { get; private set; }
+        public int KeyNumber { get; private set; }
+        public event EventHandler KeyExpired;
+
+        /// <summary>
+        /// Construcotr for FireKey Class
+        /// </summary>
+        /// <param name="keyNumber">number of the key</param>
+        /// <param name="timerIntervall">Inervall for Key expired</param>
+        public FireKey(int keyNumber, int timerIntervall)
+        {
+            this.KeyNumber = keyNumber;
+            SetTimer(timerIntervall);
+        }
+
+        private void SetTimer(int timerIntervall)
+        {
+            Timer keyTimer = new Timer(timerIntervall);
+            keyTimer.Elapsed += KeyTimer_Elapsed;
+            keyTimer.AutoReset = true;
+            keyTimer.Enabled = true;
+        }
+
+        private void KeyTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            OnKeyExpired(EventArgs.Empty);
+        }
+
+        protected virtual void OnKeyExpired(EventArgs e)
+        {
+            EventHandler handler = KeyExpired;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
         }
     }
 }
