@@ -22,6 +22,27 @@ namespace Client
 
         private void button1_Click(object sender, EventArgs e)
         {
+            var writeablePara = m_remote.GetReadableParameterList();
+            dataGridView1.DataSource = writeablePara;
+        }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+            StartupServer();
+
+            //var writeablePara = m_remote.GetWriteAbleParameterList();
+            //var readablePara = m_remote.GetReadableParameterList();
+            //var actChannelPara = m_remote.GetActChannelPara();
+            //var commands = m_remote.GetCommands();
+            //var devices = m_remote.GetDeviceList();
+
+            //var fireKey = m_remote.GetKey();
+
+            //dataGridView1.DataSource = writeablePara;
+        }
+
+        private void StartupServer()
+        {
             try
             {
                 // server muss zuvor gestartet werden
@@ -32,29 +53,11 @@ namespace Client
                 cFactory = new ChannelFactory<IRemoteGetSet>("WSHttpBinding_HWManager"); // endpoint
                 m_remote = cFactory.CreateChannel();
 
-                //test the server
-                var test = m_remote.GetKey();
-                MessageBox.Show(test.ToString());
-
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show("Problem with startup \n" + ex.Message);
             }
-        }
-
-        private void Main_Load(object sender, EventArgs e)
-        {
-            var writeablePara = m_remote.GetWriteAbleParameterList();
-            //var readablePara = m_remote.GetReadableParameterList();
-            //var actChannelPara = m_remote.GetActChannelPara();
-            //var commands = m_remote.GetCommands();
-            //var devices = m_remote.GetDeviceList();
-
-            //var fireKey = m_remote.GetKey();
-
-            dataGridView1.DataSource = writeablePara;
         }
     }
 }
