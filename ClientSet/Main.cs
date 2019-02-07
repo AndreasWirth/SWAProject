@@ -46,12 +46,15 @@ namespace Client
 
         private void Main_Load(object sender, EventArgs e)
         {
-            m_remote.GetActChannelPara();
-            m_remote.GetCommands();
-            m_remote.GetDeviceList();
-            m_remote.GetReadableParameterList();
+            var writeablePara = m_remote.GetWriteAbleParameterList();
+            //var readablePara = m_remote.GetReadableParameterList();
+            //var actChannelPara = m_remote.GetActChannelPara();
+            //var commands = m_remote.GetCommands();
+            //var devices = m_remote.GetDeviceList();
 
-            m_remote.GetKey();
+            //var fireKey = m_remote.GetKey();
+
+            dataGridView1.DataSource = writeablePara;
         }
     }
 }
