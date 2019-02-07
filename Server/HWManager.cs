@@ -25,7 +25,7 @@ namespace Storage   //changed namespace, because its managed from host
         private Timer ResetTimer;
 
         //private List<FireKey> QueuedFireKeys;
-        private Dictionary<int, FireKey> QueuedFireKeys;
+        private Dictionary<int, FireKey> QueuedFireKeys = new Dictionary<int, FireKey>();
         #endregion
 
         #region ctor

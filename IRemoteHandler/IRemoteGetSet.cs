@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ServiceModel; // verweis hinzufügen
+using System.Threading;
 using System.Timers;
 
 namespace IRemoteHandler
@@ -122,7 +123,7 @@ namespace IRemoteHandler
 
     public class FireKey
     {
-        public Timer KeyTimer { get; private set; }
+        public System.Timers.Timer KeyTimer { get; private set; }
         public int KeyNumber { get; private set; }
         public event EventHandler KeyExpired;
 
@@ -140,7 +141,7 @@ namespace IRemoteHandler
 
         private void SetTimer(int timerIntervall)
         {
-            this.KeyTimer = new Timer(timerIntervall);
+            this.KeyTimer = new System.Timers.Timer(timerIntervall);
             this.KeyTimer.Elapsed += KeyTimer_Elapsed;
             this.KeyTimer.AutoReset = false;
             this.KeyTimer.Enabled = true;
