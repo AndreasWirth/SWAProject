@@ -46,7 +46,12 @@ namespace Client
 
         private void Main_Load(object sender, EventArgs e)
         {
+            m_remote.GetActChannelPara();
+            m_remote.GetCommands();
+            m_remote.GetDeviceList();
+            m_remote.GetReadableParameterList();
 
+            m_remote.GetKey();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace IRemoteHandler
         /// </summary>
         /// <returns></returns>
         [OperationContract]
-        List<Parameter> GetReadableAbleParameterList();
+        List<Parameter> GetReadableParameterList();
         /// <summary>
         /// Returns the actual set values of the channel
         /// </summary>
