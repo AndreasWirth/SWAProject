@@ -13,6 +13,8 @@ namespace Storage   //changed namespace, because its managed from host
     class HWManager : IRemoteHandler.IRemoteGetSet
     {
         #region DataMembers
+        int refValue = 0;
+        Random ranVal = new Random();
         private List<Parameter> WritableParamters;
         private List<Parameter> ReadableParameter;
         private List<Parameter> Commands;
@@ -93,14 +95,14 @@ namespace Storage   //changed namespace, because its managed from host
             ResetTimer.Stop();
             ResetTimer.Start();
 
-            var key = 5; // Random Generated key
+            var keynumber = 5; // Random Generated key
 
-            FireKey test = new FireKey(key, 60000);
-            test.KeyExpired += FireKey_Expired;
+            FireKey key = new FireKey(keynumber, 60000);
+            key.KeyExpired += FireKey_Expired;
 
-            QueuedFireKeys.Add(test);
-            QueuedKeys.Add(key);
-            return key;
+            QueuedFireKeys.Add(key);
+            QueuedKeys.Add(keynumber);
+            return keynumber;
         }
 
         void FireKey_Expired(object sender, EventArgs e)
@@ -111,7 +113,7 @@ namespace Storage   //changed namespace, because its managed from host
 
         private void DeleateFireKey(FireKey key)
         {
-            //var pos = QueuedFireKeys.IndexOf(key);
+            key.KeyExpired -= FireKey_Expired;
             QueuedFireKeys.Remove(key);
         }
         #endregion
