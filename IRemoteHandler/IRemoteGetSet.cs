@@ -135,14 +135,21 @@ namespace IRemoteHandler
         {
             this.KeyNumber = keyNumber;
             SetTimer(timerIntervall);
+            RenewTimer();
         }
 
         private void SetTimer(int timerIntervall)
         {
-            Timer keyTimer = new Timer(timerIntervall);
-            keyTimer.Elapsed += KeyTimer_Elapsed;
-            keyTimer.AutoReset = true;
-            keyTimer.Enabled = true;
+            this.KeyTimer = new Timer(timerIntervall);
+            this.KeyTimer.Elapsed += KeyTimer_Elapsed;
+            this.KeyTimer.AutoReset = false;
+            this.KeyTimer.Enabled = true;
+        }
+        
+        public void RenewTimer()
+        {
+            this.KeyTimer.Stop();
+            this.KeyTimer.Start();
         }
 
         private void KeyTimer_Elapsed(object sender, ElapsedEventArgs e)
