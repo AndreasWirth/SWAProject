@@ -69,7 +69,7 @@ namespace IRemoteHandler
         /// <param name="key">"Fire Key"</param>
         /// <returns></returns>
         [OperationContract]
-        string SendCommand(int commandId, int key);
+        string SendCommand(string commandId, int key);
         /// <summary>
         /// returns a List of all posiible Commands
         /// </summary>
@@ -78,18 +78,18 @@ namespace IRemoteHandler
         List<Parameter> GetCommands();
         /// <summary>
         /// Queue in the Server
-        /// retruns a "Fire Key" which cis necessary for operation mode
+        /// retruns a "Fire Key" which is necessary for operation mode
         /// </summary>
-        /// <returns></returns>
+        /// <returns> keyValue or -1 if no key is available</returns>
         [OperationContract]
         int GetKey();
         /// <summary>
         /// Logg out from server to allow operation for next user
         /// </summary>
         /// <param name="key">"Fire Key"</param>
-        /// <returns></returns>
+        /// <returns>true if released, false if key was expired</returns>
         [OperationContract]
-        int ReleaseKey(int key);
+        bool ReleaseKey(int key);
 
         //--- Devices
         /// <summary>
@@ -98,7 +98,7 @@ namespace IRemoteHandler
         /// <param name="deviceId">device id to check</param>
         /// <returns></returns>
         [OperationContract]
-        bool CheckDeviceAvailable(int deviceId);
+        bool CheckDeviceAvailable(string deviceId);
         /// <summary>
         /// returns A list of all available Devices
         /// </summary>
