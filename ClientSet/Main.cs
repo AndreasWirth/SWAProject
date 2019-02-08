@@ -15,11 +15,15 @@ namespace Client
     public partial class Main : Form
     {
         private IRemoteGetSet m_remote;
+        private FireKey myKey;
+        private int renewIntervall = 3000;
+        private int queuePosition;
         public Main()
         {
             InitializeComponent();
         }
 
+        private bool toggle = true;
         private void button1_Click(object sender, EventArgs e)
         {
             List<Parameter> testWrite = new List<Parameter>();
@@ -29,6 +33,18 @@ namespace Client
             testWrite.Add(new Parameter("4", false, "Polaritätsvorwahl"));
             testWrite.Add(new Parameter("5", false, "Ladespannung"));
 
+            if (toggle)
+            {
+                RequestFireKey();
+                toggle = !toggle;
+            }
+            else
+            {
+                ReleaseKey();
+                toggle = !toggle;
+            }
+
+           
             /*
             var writeablePara = m_remote.GetWriteAbleParameterList();
             var readablePara = m_remote.GetReadableParameterList();
@@ -39,7 +55,7 @@ namespace Client
             {
                 var available = m_remote.CheckDeviceAvailable(device.ID);
             }
-            */
+            
             
             var fireKey = m_remote.GetKey();
 
@@ -57,7 +73,7 @@ namespace Client
 
             m_remote.ReleaseKey(fireKey + 1);
             m_remote.ReleaseKey(fireKey);
-
+            */
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -93,5 +109,41 @@ namespace Client
                 MessageBox.Show("Problem with startup \n" + ex.Message);
             }
         }
+
+        private void RequestFireKey()
+        {
+            var fireKey = m_remote.GetKey();
+            // keynumber has to be positiv
+            if (fireKey > 0) 
+            {
+                // generate Key with 
+                this.myKey = new FireKey(fireKey, renewIntervall,true);
+                // listening to the event
+                this.myKey.KeyExpired += FireKey_Expired;
+            }
+            
+        }
+        private void ReleaseKey()
+        {
+            if (myKey != null)
+            {
+                this.myKey.KeyExpired -= FireKey_Expired;
+                m_remote.ReleaseKey(this.myKey.KeyNumber);
+            }
+        }
+        /// <summary>
+        /// MEthod for automaticaly renew FireKey
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void FireKey_Expired(object sender, EventArgs e)
+        {
+            // TODO: check queue Position somewhere/ or here and give allert if it is -1 (not in queue)
+            var key = (FireKey)sender;
+            queuePosition = m_remote.RenewFireKey(key.KeyNumber);
+        }
+
+
+        
     }
 }

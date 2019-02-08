@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.ServiceModel; // for WCF - need Verweis
 using IRemoteHandler;
 using System.Timers;
+using Microsoft.Build.Utilities;
+using System.Diagnostics;
 
 namespace Storage   //changed namespace, to show its managed from host
 {
@@ -13,6 +15,8 @@ namespace Storage   //changed namespace, to show its managed from host
     class HWManager : IRemoteHandler.IRemoteGetSet
     {
         private bool displayLog = true;
+        private bool fileLog = false;
+
         #region DataMembers
         private int refValue = 0;
         private Random ranVal = new Random();
@@ -24,6 +28,8 @@ namespace Storage   //changed namespace, to show its managed from host
         private List<Parameter> DeviceList;
 
         private List<FireKey> QueuedFireKeys;
+
+        private string LogPath;
         #endregion
 
         #region ctor
@@ -33,9 +39,15 @@ namespace Storage   //changed namespace, to show its managed from host
             Console.WriteLine("\nHWManager constructed");
             LoadTestParameter();
             Console.WriteLine("\nParameter loaded");
+            this.LogPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
+            this.LogPath = LogPath.Remove(0, 6);
+            this.LogPath = LogPath + @"\Log.txt";
+            Console.WriteLine("Path for LogFile");
+            Console.WriteLine(this.LogPath);
+            //System.IO.File.AppendAllText(LogPath, "mymsg\n");
+            LogMessage("Server Started");
+            Console.WriteLine("\nLog started");
         }
-
-
         #endregion
 
         #region Internal Methodes
@@ -126,6 +138,52 @@ namespace Storage   //changed namespace, to show its managed from host
             QueuedFireKeys.Remove(key);
             DisplayMessage("EXPIRED KEY deleated: " + key.KeyNumber.ToString());
         }
+
+        /// <summary>
+        /// private console.WriteLine if member displayLog is true
+        /// </summary>
+        /// <param name="s">string to display</param>
+        private void DisplayMessage(string s)
+        {
+            if (this.displayLog)
+            {
+                Console.WriteLine(s);
+            }
+            if (fileLog)
+            {
+                LogMessage(s);
+            }
+        }
+        /// <summary>
+        /// Logg the given string to the log File if File logging is true
+        /// </summary>
+        /// <param name="s">the string to log</param>
+        private void LogMessage(string s)
+        {
+            if (!this.fileLog)
+            {
+                return;
+            }
+            string tap = "   ";
+            StringBuilder m = new StringBuilder();
+            DateTime aktTime = new DateTime();
+            aktTime = DateTime.Now;
+            m.Append(aktTime);
+            m.Append(tap);
+            m.Append(s);
+            m.AppendLine();
+            //DisplayMessage(this.LogPath);
+            //DisplayMessage(m.ToString());
+            try
+            {
+                System.IO.File.AppendAllText(this.LogPath, m.ToString());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("oh no");
+                Console.WriteLine(e.Message);
+            }
+        }
         #endregion
 
         #region ------interface methodes
@@ -155,7 +213,7 @@ namespace Storage   //changed namespace, to show its managed from host
         /// <returns>position in List</returns>
         public int RenewFireKey(int key)
         {
-            DisplayMessage("RenewFireKey " + key.ToString() + " requested");
+            DisplayMessage("RenewFireKey requested with key: " + key.ToString());
             int pos=-1;
             foreach (FireKey IterationKey in QueuedFireKeys)
             {
@@ -179,7 +237,7 @@ namespace Storage   //changed namespace, to show its managed from host
 
         public bool CheckDeviceAvailable(string deviceId)
         {
-            DisplayMessage("CheckDeviceAvailable requested");
+            DisplayMessage("CheckDeviceAvailable requested with deviceId: " + deviceId);
             // check Device with the given device id
             // ...
             return true;
@@ -240,7 +298,7 @@ namespace Storage   //changed namespace, to show its managed from host
 
         public bool ReleaseKey(int key)
         {
-            DisplayMessage("ReleaseKey requested");
+            DisplayMessage("ReleaseKey requested with key: " + key.ToString());
             FireKey deleateKey = null;
             // iterate through Key storage and remove key
             foreach (FireKey iterationKey in QueuedFireKeys)
@@ -253,7 +311,7 @@ namespace Storage   //changed namespace, to show its managed from host
             if (deleateKey != null)
             {
                 DisplayMessage("key deleted");
-                QueuedFireKeys.Remove(deleateKey);
+                DeleateFireKey(deleateKey);
                 return true;
             }
             // key was expired return false
@@ -264,7 +322,7 @@ namespace Storage   //changed namespace, to show its managed from host
         public string SendCommand(string commandId, int key)
         {
             StringBuilder s = new StringBuilder();
-            DisplayMessage("SendCommand " + commandId +" requested wit key " + key.ToString());
+            DisplayMessage("SendCommand " + commandId +" requested wit key: " + key.ToString());
             if (CompareFireKey(key))
             {
                 DisplayMessage("Key Accepted");
@@ -295,16 +353,5 @@ namespace Storage   //changed namespace, to show its managed from host
         }
 
         #endregion
-        /// <summary>
-        /// private console.WriteLine if member dosplayLog is true
-        /// </summary>
-        /// <param name="s">string to display</param>
-        private void DisplayMessage(string s)
-        {
-            if (this.displayLog)
-            {
-                Console.WriteLine(s);
-            }
-        }
     }
 }

@@ -128,6 +128,16 @@ namespace IRemoteHandler
         public int KeyNumber { get; private set; }
         public event EventHandler KeyExpired;
 
+        private bool autoRest = false;
+
+        #region  ctor
+        public FireKey()
+        {
+            this.KeyNumber = -1;
+            SetTimer(0);
+            RenewTimer();
+        }
+
         /// <summary>
         /// Construcotr for FireKey Class
         /// </summary>
@@ -136,16 +146,33 @@ namespace IRemoteHandler
         public FireKey(int keyNumber, int timerIntervall)
         {
             this.KeyNumber = keyNumber;
+            this.autoRest = false;
             SetTimer(timerIntervall);
             RenewTimer();
         }
 
+        public FireKey(int keyNumber, int timerIntervall, bool AutoReset)
+        {
+            this.KeyNumber = keyNumber;
+            this.autoRest = true;
+            SetTimer(timerIntervall);
+            RenewTimer();
+        }
+        #endregion
+
         private void SetTimer(int timerIntervall)
         {
-            this.KeyTimer = new System.Timers.Timer(timerIntervall);
-            this.KeyTimer.Elapsed += KeyTimer_Elapsed;
-            this.KeyTimer.AutoReset = false;
-            this.KeyTimer.Enabled = true;
+            if (timerIntervall > 1000)
+            {
+                this.KeyTimer = new System.Timers.Timer(timerIntervall);
+                this.KeyTimer.Elapsed += KeyTimer_Elapsed;
+                this.KeyTimer.AutoReset = this.autoRest;
+                this.KeyTimer.Enabled = true;
+            }
+            else
+            {
+                this.KeyTimer = null;
+            }
         }
         
         public void RenewTimer()

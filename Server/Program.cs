@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ServiceModel;
+using System.Diagnostics;
 
 namespace Server
 {
@@ -17,7 +18,6 @@ namespace Server
 
             myHost.Open();
 
-            
             //inforamtion
             Console.WriteLine();
             Console.WriteLine("Waiting for request");
@@ -32,7 +32,6 @@ namespace Server
             //close the Service
             myHost.Close();
             Console.WriteLine("Service closed");
-
         }
     }
 }
