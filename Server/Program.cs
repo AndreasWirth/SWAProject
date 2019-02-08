@@ -11,6 +11,7 @@ namespace Server
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Hello and Welcome to our super duper SWA Server");
             //creating the service 
             ServiceHost myHost = new ServiceHost(typeof(Storage.HWManager));
 
@@ -30,7 +31,8 @@ namespace Server
 
             //close the Service
             myHost.Close();
-            
+            Console.WriteLine("Service closed");
+
         }
     }
 }

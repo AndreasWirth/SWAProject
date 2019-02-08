@@ -107,6 +107,7 @@ namespace IRemoteHandler
         List<Parameter> GetDeviceList();
     }
 
+    [Serializable]
     public class Parameter
     {
         public string ID;
