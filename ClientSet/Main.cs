@@ -22,7 +22,7 @@ namespace Client
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var writeablePara = m_remote.GetReadableParameterList();
+            var writeablePara = m_remote.GetWriteAbleParameterList();
             dataGridView1.DataSource = writeablePara;
         }
 
