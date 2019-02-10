@@ -15,7 +15,7 @@ namespace Client
     public partial class Main : Form
     {
         private IRemoteGetSet m_remote;
-        private FireKey myKey;
+        private FireKey myKey = null;
         private int renewIntervall = 3000;
         private int queuePosition;
         public Main()
@@ -79,16 +79,47 @@ namespace Client
         private void Main_Load(object sender, EventArgs e)
         {
             StartupServer();
+             
+            //Get Writable Data and write it to DataGrid
+            var writeablePara = m_remote.GetWriteAbleParameterList();
+            foreach (var parameter in writeablePara)
+            {
+                dataGridView1.Rows.Add(parameter.ID, parameter.Value, parameter.Beschreibung);
+            }
 
-            //var writeablePara = m_remote.GetWriteAbleParameterList();
-            //var readablePara = m_remote.GetReadableParameterList();
-            //var actChannelPara = m_remote.GetActChannelPara();
-            //var commands = m_remote.GetCommands();
+            //Get Readable data and write it to DataGrid
+            var readablePara = m_remote.GetReadableParameterList();
+            foreach (var parameter in readablePara)
+            {
+                dgvReadableParameters.Rows.Add(parameter.ID, parameter.Value, parameter.Beschreibung);
+            }
+
+            // TODO: Use Actual channel Data
+            var actChannelPara = m_remote.GetActChannelPara();
+
+
+            //Get Commands and Write them to ComboBox
+            var commands = m_remote.GetCommands();
+            string[] listCommands = new string[commands.Count + 1];
+            listCommands[0] = "None";
+            listCommands = GetCommandStrings(listCommands, commands);
+            cbCommands.Items.AddRange(listCommands);
+            cbCommands.SelectedIndex = 0;
+
             //var devices = m_remote.GetDeviceList();
+            dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgvReadableParameters.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+        }
 
-            //var fireKey = m_remote.GetKey();
-
-            //dataGridView1.DataSource = writeablePara;
+        private string[] GetCommandStrings(string[] commands, List<Parameter> list)
+        {
+            int i = 1;
+            foreach (var command in list)
+            {
+                commands[i] = command.Beschreibung;
+                i++;
+            }
+            return commands;
         }
 
         private void StartupServer()
@@ -143,7 +174,35 @@ namespace Client
             queuePosition = m_remote.RenewFireKey(key.KeyNumber);
         }
 
+        private void btnRequestFireKey_Click(object sender, EventArgs e)
+        {
+            //TODO: 
+            RequestFireKey();
+            bwWaitForConnection.RunWorkerAsync();
+            // Start waiting-visualization
+            waitingTimer.Start();
 
-        
+        }
+
+        private void waitingTimer_Tick(object sender, EventArgs e)
+        {
+            if (pbConnection.Value == pbConnection.Maximum)
+            {
+                pbConnection.Value = 0;
+            }
+            pbConnection.Increment(1);  
+        }
+
+        private void bwWaitForConnection_DoWork(object sender, DoWorkEventArgs e)
+        {
+            //TODO: zyklische Überprüfung(30s) ob geschrieben werden darf (Mein FireKey ist an der Reihe)
+            //      Parameter immer mitschicken!
+        }
+
+        private void btnSendSelCommand_Click(object sender, EventArgs e)
+        {
+            //TODO: Button nur aktiv wenn geschrieben werden darf
+            //      Senden des aktuell ausgewählten Commands auf combobox
+        }
     }
 }
