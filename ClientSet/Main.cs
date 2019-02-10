@@ -204,5 +204,15 @@ namespace Client
             //TODO: Button nur aktiv wenn geschrieben werden darf
             //      Senden des aktuell ausgewählten Commands auf combobox
         }
+
+        private void btnReleaseFireKey_Click(object sender, EventArgs e)
+        {
+            //TODO: Release Fire Key if Button pressed
+        }
+
+        private void btnUpdateAcPara_Click(object sender, EventArgs e)
+        {
+            //TODO: Update Parameter
+        }
     }
 }

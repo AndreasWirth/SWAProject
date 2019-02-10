@@ -200,6 +200,7 @@
             this.btnUpdateAcPara.TabIndex = 9;
             this.btnUpdateAcPara.Text = "Update Parameters";
             this.btnUpdateAcPara.UseVisualStyleBackColor = true;
+            this.btnUpdateAcPara.Click += new System.EventHandler(this.btnUpdateAcPara_Click);
             // 
             // pbConnection
             // 
@@ -225,6 +226,7 @@
             this.btnReleaseFireKey.TabIndex = 11;
             this.btnReleaseFireKey.Text = "Release FireKey";
             this.btnReleaseFireKey.UseVisualStyleBackColor = true;
+            this.btnReleaseFireKey.Click += new System.EventHandler(this.btnReleaseFireKey_Click);
             // 
             // Main
             // 
