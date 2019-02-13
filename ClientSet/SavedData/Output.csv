@@ -1,0 +1,18 @@
+﻿Readable Parameters
+ID;Value;Description;
+2;0;H/W Operate Modus ist aktiv ;
+3;20;Primärstrom;
+4;50;Aktuelle Prüfzeit;
+5;True;Polarität des Generators;
+6;False;Einstellend er abschneidestrecke beendet;
+7;True;IP Gerät meldet einen Fehler;
+8;True;IP Gerät ist im Ready-Modus;
+9;True;IP Gerät ist im Operate-Modus;
+10;True;Zündung wurde ausgelöst;
+
+Writeable Parameters
+1;30000;Prüfspannung;
+2;300;Prüfzeit;
+3;True;Abschneidestrecke automatisch einstellen;
+4;False;Polaritätsvorwahl;
+5;False;Ladespannung;

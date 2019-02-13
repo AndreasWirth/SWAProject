@@ -367,7 +367,7 @@ namespace Client
 
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            
+            //TODO: Check Changed Parameter and rechange it if necessary
         }
 
         private void btnSaveToCsv_Click(object sender, EventArgs e)
