@@ -28,27 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.button1 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.lbWriteableParameters = new System.Windows.Forms.Label();
-            this.dgvReadableParameters = new System.Windows.Forms.DataGridView();
-            this.lbReadableParameters = new System.Windows.Forms.Label();
-            this.cbCommands = new System.Windows.Forms.ComboBox();
-            this.lbSelectedCommand = new System.Windows.Forms.Label();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lbWriteableParameters = new System.Windows.Forms.Label();
+            this.dgvReadableParameters = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lbReadableParameters = new System.Windows.Forms.Label();
+            this.cbCommands = new System.Windows.Forms.ComboBox();
+            this.lbSelectedCommand = new System.Windows.Forms.Label();
             this.btnSendSelCommand = new System.Windows.Forms.Button();
             this.btnRequestFireKey = new System.Windows.Forms.Button();
             this.btnUpdateAcPara = new System.Windows.Forms.Button();
-            this.pbConnection = new System.Windows.Forms.ProgressBar();
-            this.waitingTimer = new System.Windows.Forms.Timer(this.components);
-            this.bwWaitForConnection = new System.ComponentModel.BackgroundWorker();
             this.btnReleaseFireKey = new System.Windows.Forms.Button();
+            this.tbOutputWindow = new System.Windows.Forms.TextBox();
+            this.lbOutputWindow = new System.Windows.Forms.Label();
+            this.btnCheckAvailability = new System.Windows.Forms.Button();
+            this.lbCheckDeviceAvailable = new System.Windows.Forms.Label();
+            this.cbCheckDeviceAvailable = new System.Windows.Forms.ComboBox();
+            this.btnSaveToCsv = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvReadableParameters)).BeginInit();
             this.SuspendLayout();
@@ -79,6 +81,27 @@
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(500, 200);
             this.dataGridView1.TabIndex = 1;
+            this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.HeaderText = "ID";
+            this.dataGridViewTextBoxColumn4.Name = "ID";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            this.dataGridViewTextBoxColumn4.Width = 50;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.HeaderText = "Value";
+            this.dataGridViewTextBoxColumn5.Name = "Value";
+            this.dataGridViewTextBoxColumn5.Width = 73;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn6.HeaderText = "Description";
+            this.dataGridViewTextBoxColumn6.Name = "Description";
+            this.dataGridViewTextBoxColumn6.ReadOnly = true;
             // 
             // lbWriteableParameters
             // 
@@ -105,6 +128,27 @@
             this.dgvReadableParameters.Size = new System.Drawing.Size(500, 200);
             this.dgvReadableParameters.TabIndex = 3;
             // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "ID";
+            this.dataGridViewTextBoxColumn1.Name = "ID";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Width = 50;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.HeaderText = "Value";
+            this.dataGridViewTextBoxColumn2.Name = "Value";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            this.dataGridViewTextBoxColumn2.Width = 73;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.dataGridViewTextBoxColumn3.HeaderText = "Description";
+            this.dataGridViewTextBoxColumn3.Name = "Description";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
             // lbReadableParameters
             // 
             this.lbReadableParameters.AutoSize = true;
@@ -117,7 +161,7 @@
             // cbCommands
             // 
             this.cbCommands.FormattingEnabled = true;
-            this.cbCommands.Location = new System.Drawing.Point(519, 86);
+            this.cbCommands.Location = new System.Drawing.Point(519, 180);
             this.cbCommands.Name = "cbCommands";
             this.cbCommands.Size = new System.Drawing.Size(319, 24);
             this.cbCommands.TabIndex = 5;
@@ -125,56 +169,15 @@
             // lbSelectedCommand
             // 
             this.lbSelectedCommand.AutoSize = true;
-            this.lbSelectedCommand.Location = new System.Drawing.Point(516, 66);
+            this.lbSelectedCommand.Location = new System.Drawing.Point(516, 160);
             this.lbSelectedCommand.Name = "lbSelectedCommand";
             this.lbSelectedCommand.Size = new System.Drawing.Size(142, 17);
             this.lbSelectedCommand.TabIndex = 6;
             this.lbSelectedCommand.Text = "Seleceted Command:";
             // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "ID";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Width = 50;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "Value";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            this.dataGridViewTextBoxColumn2.Width = 73;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn3.HeaderText = "Description";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.HeaderText = "ID";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            this.dataGridViewTextBoxColumn4.Width = 50;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.HeaderText = "Value";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.Width = 73;
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn6.HeaderText = "Description";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            this.dataGridViewTextBoxColumn6.ReadOnly = true;
-            // 
             // btnSendSelCommand
             // 
-            this.btnSendSelCommand.Location = new System.Drawing.Point(519, 116);
+            this.btnSendSelCommand.Location = new System.Drawing.Point(519, 210);
             this.btnSendSelCommand.Name = "btnSendSelCommand";
             this.btnSendSelCommand.Size = new System.Drawing.Size(140, 30);
             this.btnSendSelCommand.TabIndex = 7;
@@ -202,22 +205,6 @@
             this.btnUpdateAcPara.UseVisualStyleBackColor = true;
             this.btnUpdateAcPara.Click += new System.EventHandler(this.btnUpdateAcPara_Click);
             // 
-            // pbConnection
-            // 
-            this.pbConnection.Location = new System.Drawing.Point(12, 544);
-            this.pbConnection.Name = "pbConnection";
-            this.pbConnection.Size = new System.Drawing.Size(826, 23);
-            this.pbConnection.TabIndex = 10;
-            // 
-            // waitingTimer
-            // 
-            this.waitingTimer.Interval = 20;
-            this.waitingTimer.Tick += new System.EventHandler(this.waitingTimer_Tick);
-            // 
-            // bwWaitForConnection
-            // 
-            this.bwWaitForConnection.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwWaitForConnection_DoWork);
-            // 
             // btnReleaseFireKey
             // 
             this.btnReleaseFireKey.Location = new System.Drawing.Point(160, 18);
@@ -228,13 +215,73 @@
             this.btnReleaseFireKey.UseVisualStyleBackColor = true;
             this.btnReleaseFireKey.Click += new System.EventHandler(this.btnReleaseFireKey_Click);
             // 
+            // tbOutputWindow
+            // 
+            this.tbOutputWindow.Location = new System.Drawing.Point(519, 421);
+            this.tbOutputWindow.Multiline = true;
+            this.tbOutputWindow.Name = "tbOutputWindow";
+            this.tbOutputWindow.ReadOnly = true;
+            this.tbOutputWindow.Size = new System.Drawing.Size(319, 56);
+            this.tbOutputWindow.TabIndex = 12;
+            // 
+            // lbOutputWindow
+            // 
+            this.lbOutputWindow.AutoSize = true;
+            this.lbOutputWindow.Location = new System.Drawing.Point(516, 401);
+            this.lbOutputWindow.Name = "lbOutputWindow";
+            this.lbOutputWindow.Size = new System.Drawing.Size(104, 17);
+            this.lbOutputWindow.TabIndex = 13;
+            this.lbOutputWindow.Text = "Output window:";
+            // 
+            // btnCheckAvailability
+            // 
+            this.btnCheckAvailability.Location = new System.Drawing.Point(519, 118);
+            this.btnCheckAvailability.Name = "btnCheckAvailability";
+            this.btnCheckAvailability.Size = new System.Drawing.Size(140, 30);
+            this.btnCheckAvailability.TabIndex = 16;
+            this.btnCheckAvailability.Text = "Check Availability";
+            this.btnCheckAvailability.UseVisualStyleBackColor = true;
+            this.btnCheckAvailability.Click += new System.EventHandler(this.btnCheckAvailability_Click);
+            // 
+            // lbCheckDeviceAvailable
+            // 
+            this.lbCheckDeviceAvailable.AutoSize = true;
+            this.lbCheckDeviceAvailable.Location = new System.Drawing.Point(516, 68);
+            this.lbCheckDeviceAvailable.Name = "lbCheckDeviceAvailable";
+            this.lbCheckDeviceAvailable.Size = new System.Drawing.Size(122, 17);
+            this.lbCheckDeviceAvailable.TabIndex = 15;
+            this.lbCheckDeviceAvailable.Text = "Seleceted Device:";
+            // 
+            // cbCheckDeviceAvailable
+            // 
+            this.cbCheckDeviceAvailable.FormattingEnabled = true;
+            this.cbCheckDeviceAvailable.Location = new System.Drawing.Point(519, 88);
+            this.cbCheckDeviceAvailable.Name = "cbCheckDeviceAvailable";
+            this.cbCheckDeviceAvailable.Size = new System.Drawing.Size(319, 24);
+            this.cbCheckDeviceAvailable.TabIndex = 14;
+            // 
+            // btnSaveToCsv
+            // 
+            this.btnSaveToCsv.Location = new System.Drawing.Point(373, 18);
+            this.btnSaveToCsv.Name = "btnSaveToCsv";
+            this.btnSaveToCsv.Size = new System.Drawing.Size(140, 30);
+            this.btnSaveToCsv.TabIndex = 17;
+            this.btnSaveToCsv.Text = "Save Data to .csv";
+            this.btnSaveToCsv.UseVisualStyleBackColor = true;
+            this.btnSaveToCsv.Click += new System.EventHandler(this.btnSaveToCsv_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(854, 579);
+            this.ClientSize = new System.Drawing.Size(854, 534);
+            this.Controls.Add(this.btnSaveToCsv);
+            this.Controls.Add(this.btnCheckAvailability);
+            this.Controls.Add(this.lbCheckDeviceAvailable);
+            this.Controls.Add(this.cbCheckDeviceAvailable);
+            this.Controls.Add(this.lbOutputWindow);
+            this.Controls.Add(this.tbOutputWindow);
             this.Controls.Add(this.btnReleaseFireKey);
-            this.Controls.Add(this.pbConnection);
             this.Controls.Add(this.btnUpdateAcPara);
             this.Controls.Add(this.btnRequestFireKey);
             this.Controls.Add(this.btnSendSelCommand);
@@ -274,9 +321,12 @@
         private System.Windows.Forms.Button btnSendSelCommand;
         private System.Windows.Forms.Button btnRequestFireKey;
         private System.Windows.Forms.Button btnUpdateAcPara;
-        private System.Windows.Forms.ProgressBar pbConnection;
-        private System.Windows.Forms.Timer waitingTimer;
-        private System.ComponentModel.BackgroundWorker bwWaitForConnection;
         private System.Windows.Forms.Button btnReleaseFireKey;
+        private System.Windows.Forms.TextBox tbOutputWindow;
+        private System.Windows.Forms.Label lbOutputWindow;
+        private System.Windows.Forms.Button btnCheckAvailability;
+        private System.Windows.Forms.Label lbCheckDeviceAvailable;
+        private System.Windows.Forms.ComboBox cbCheckDeviceAvailable;
+        private System.Windows.Forms.Button btnSaveToCsv;
     }
 }
