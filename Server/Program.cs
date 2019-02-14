@@ -30,6 +30,7 @@ namespace Server
             Console.ReadLine();
 
             //close the Service
+            Console.WriteLine("closing Services");
             myHost.Close();
             Console.WriteLine("Service closed");
         }

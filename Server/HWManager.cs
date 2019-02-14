@@ -248,7 +248,7 @@ namespace Storage   //changed namespace, to show its managed from host
         {
             DisplayMessage("GetActChannelPara requested");
             // collecting data from Hardware
-            // ...
+            // ... for now send readable parameters
             return ReadableParameter;
         }
 

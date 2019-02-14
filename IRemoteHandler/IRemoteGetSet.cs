@@ -71,7 +71,7 @@ namespace IRemoteHandler
         [OperationContract]
         string SendCommand(string commandId, int key);
         /// <summary>
-        /// returns a List of all posiible Commands
+        /// returns a List of all possible Commands
         /// </summary>
         /// <returns></returns>
         [OperationContract]
@@ -128,7 +128,7 @@ namespace IRemoteHandler
         public int KeyNumber { get; private set; }
         public event EventHandler KeyExpired;
 
-        private bool autoRest = false;
+        private bool AutoReset = false;
 
         #region  ctor
         public FireKey()
@@ -146,15 +146,15 @@ namespace IRemoteHandler
         public FireKey(int keyNumber, int timerIntervall)
         {
             this.KeyNumber = keyNumber;
-            this.autoRest = false;
+            this.AutoReset = false;
             SetTimer(timerIntervall);
             RenewTimer();
         }
 
-        public FireKey(int keyNumber, int timerIntervall, bool AutoReset)
+        public FireKey(int keyNumber, int timerIntervall, bool autoReset)
         {
             this.KeyNumber = keyNumber;
-            this.autoRest = true;
+            this.AutoReset = autoReset;
             SetTimer(timerIntervall);
             RenewTimer();
         }
@@ -166,7 +166,7 @@ namespace IRemoteHandler
             {
                 this.KeyTimer = new System.Timers.Timer(timerIntervall);
                 this.KeyTimer.Elapsed += KeyTimer_Elapsed;
-                this.KeyTimer.AutoReset = this.autoRest;
+                this.KeyTimer.AutoReset = this.AutoReset;
                 this.KeyTimer.Enabled = true;
             }
             else

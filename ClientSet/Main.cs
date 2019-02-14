@@ -82,46 +82,57 @@ namespace Client
 
         private void Main_Load(object sender, EventArgs e)
         {
-            StartupServer();
-            tbOutputWindow.Text = "Welcome. You are sucessfully connected to the server!";
-            btnReleaseFireKey.Enabled = false;
-            btnSendSelCommand.Enabled = false;
-            btnCheckAvailability.Enabled = false;
-
-            //Get Writable Data and write it to DataGrid
-            var writeablePara = m_remote.GetWriteAbleParameterList();
-            foreach (var parameter in writeablePara)
+            if (StartupServer())
             {
-                dataGridView1.Rows.Add(parameter.ID, parameter.Value, parameter.Beschreibung);
-            }
+                tbOutputWindow.Text = "Welcome. You are sucessfully connected to the server!";
+                btnReleaseFireKey.Enabled = false;
+                btnSendSelCommand.Enabled = false;
+                btnCheckAvailability.Enabled = false;
 
-            //Get Readable data and write it to DataGrid
-            var readablePara = m_remote.GetReadableParameterList();
-            foreach (var parameter in readablePara)
+                //Get Writable Data and write it to DataGrid
+                var writeablePara = m_remote.GetWriteAbleParameterList();
+                foreach (var parameter in writeablePara)
+                {
+                    dataGridView1.Rows.Add(parameter.ID, parameter.Value, parameter.Beschreibung);
+                }
+
+                //Get Readable data and write it to DataGrid
+                var readablePara = m_remote.GetReadableParameterList();
+                foreach (var parameter in readablePara)
+                {
+                    dgvReadableParameters.Rows.Add(parameter.ID, parameter.Value, parameter.Beschreibung);
+                }
+
+                // TODO: Use Actual channel Data
+                // var actChannelPara = m_remote.GetActChannelPara();
+
+
+                //Get Commands and Write them to ComboBox
+                commands = m_remote.GetCommands();
+                string[] listCommands = new string[commands.Count + 1];
+                listCommands[0] = "None";
+                listCommands = GetStrings(listCommands, commands);
+                cbCommands.Items.AddRange(listCommands);
+                cbCommands.SelectedIndex = 0;
+
+                // Get Devices and write them to ComboBox
+                devices = m_remote.GetDeviceList();
+                string[] listDevices = new string[devices.Count + 1];
+                listDevices[0] = "None";
+                listDevices = GetStrings(listDevices, devices);
+                cbCheckDeviceAvailable.Items.AddRange(listDevices);
+                cbCheckDeviceAvailable.SelectedIndex = 0;
+            }
+            else
             {
-                dgvReadableParameters.Rows.Add(parameter.ID, parameter.Value, parameter.Beschreibung);
+                MessageBox.Show("Server not found");
+                btnReleaseFireKey.Enabled = false;
+                btnSendSelCommand.Enabled = false;
+                btnCheckAvailability.Enabled = false;
+                btnSaveToCsv.Enabled = false;
+                btnRequestFireKey.Enabled = false;
+                tbOutputWindow.Text = "connection problem";
             }
-
-            // TODO: Use Actual channel Data
-            // var actChannelPara = m_remote.GetActChannelPara();
-
-
-            //Get Commands and Write them to ComboBox
-            commands = m_remote.GetCommands();
-            string[] listCommands = new string[commands.Count + 1];
-            listCommands[0] = "None";
-            listCommands = GetStrings(listCommands, commands);
-            cbCommands.Items.AddRange(listCommands);
-            cbCommands.SelectedIndex = 0;
-
-            // Get Devices and write them to ComboBox
-            devices = m_remote.GetDeviceList();
-            string[] listDevices = new string[devices.Count + 1];
-            listDevices[0] = "None";
-            listDevices = GetStrings(listDevices, devices);
-            cbCheckDeviceAvailable.Items.AddRange(listDevices);
-            cbCheckDeviceAvailable.SelectedIndex = 0;
-
         }
 
         private string[] GetStrings(string[] commands, List<Parameter> list)
@@ -135,7 +146,7 @@ namespace Client
             return commands;
         }
 
-        private void StartupServer()
+        private bool StartupServer()
         {
             try
             {
@@ -146,11 +157,27 @@ namespace Client
                 ChannelFactory<IRemoteGetSet> cFactory;
                 cFactory = new ChannelFactory<IRemoteGetSet>("WSHttpBinding_HWManager"); // endpoint
                 m_remote = cFactory.CreateChannel();
+                return TestConnection(m_remote); ;
 
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Problem with startup \n" + ex.Message);
+                return false;
+            }
+        }
+
+        private bool TestConnection(IRemoteGetSet conection)
+        {
+            try
+            {
+                //test connection
+                conection.IsFireKeyActiv();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
@@ -219,6 +246,7 @@ namespace Client
                 else
                 {
                     // TODO: Hier muss man möglicherweise erneut senden und abprüfen!
+                    // dürfte nicht eintretten da dieser fehler nur bei einem falschen key auftritt
                     Invoke(new MethodInvoker(() =>
                     {
                         tbOutputWindow.Text = "Actual Channel Parameters have not been transferred to the server.";
@@ -243,7 +271,6 @@ namespace Client
                 }));
             }
         }
-
         private void btnRequestFireKey_Click(object sender, EventArgs e)
         { 
             RequestFireKey();
