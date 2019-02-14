@@ -1,5 +1,5 @@
 ﻿Readable Parameters
-ID;Value;Description;
+dataGridViewTextBoxColumn1;dataGridViewTextBoxColumn2;dataGridViewTextBoxColumn3;
 2;0;H/W Operate Modus ist aktiv ;
 3;20;Primärstrom;
 4;50;Aktuelle Prüfzeit;
@@ -11,7 +11,7 @@ ID;Value;Description;
 10;True;Zündung wurde ausgelöst;
 
 Writeable Parameters
-1;20000;Prüfspannung;
+1;30000;Prüfspannung;
 2;300;Prüfzeit;
 3;True;Abschneidestrecke automatisch einstellen;
 4;False;Polaritätsvorwahl;

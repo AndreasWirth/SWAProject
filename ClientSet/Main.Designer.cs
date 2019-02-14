@@ -30,9 +30,9 @@
         {
             this.button1 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lbWriteableParameters = new System.Windows.Forms.Label();
             this.dgvReadableParameters = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,6 +51,8 @@
             this.lbCheckDeviceAvailable = new System.Windows.Forms.Label();
             this.cbCheckDeviceAvailable = new System.Windows.Forms.ComboBox();
             this.btnSaveToCsv = new System.Windows.Forms.Button();
+            this.lbConnectionState = new System.Windows.Forms.Label();
+            this.tbConnectionState = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvReadableParameters)).BeginInit();
             this.SuspendLayout();
@@ -73,9 +75,9 @@
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn4,
-            this.dataGridViewTextBoxColumn5,
-            this.dataGridViewTextBoxColumn6});
+            this.ID,
+            this.Value,
+            this.Description});
             this.dataGridView1.Location = new System.Drawing.Point(14, 328);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 24;
@@ -83,25 +85,25 @@
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             // 
-            // dataGridViewTextBoxColumn4
+            // ID
             // 
-            this.dataGridViewTextBoxColumn4.HeaderText = "ID";
-            this.dataGridViewTextBoxColumn4.Name = "ID";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            this.dataGridViewTextBoxColumn4.Width = 50;
+            this.ID.HeaderText = "ID";
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            this.ID.Width = 50;
             // 
-            // dataGridViewTextBoxColumn5
+            // Value
             // 
-            this.dataGridViewTextBoxColumn5.HeaderText = "Value";
-            this.dataGridViewTextBoxColumn5.Name = "Value";
-            this.dataGridViewTextBoxColumn5.Width = 73;
+            this.Value.HeaderText = "Value";
+            this.Value.Name = "Value";
+            this.Value.Width = 73;
             // 
-            // dataGridViewTextBoxColumn6
+            // Description
             // 
-            this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.dataGridViewTextBoxColumn6.HeaderText = "Description";
-            this.dataGridViewTextBoxColumn6.Name = "Description";
-            this.dataGridViewTextBoxColumn6.ReadOnly = true;
+            this.Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Description.HeaderText = "Description";
+            this.Description.Name = "Description";
+            this.Description.ReadOnly = true;
             // 
             // lbWriteableParameters
             // 
@@ -131,14 +133,14 @@
             // dataGridViewTextBoxColumn1
             // 
             this.dataGridViewTextBoxColumn1.HeaderText = "ID";
-            this.dataGridViewTextBoxColumn1.Name = "ID";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
             this.dataGridViewTextBoxColumn1.Width = 50;
             // 
             // dataGridViewTextBoxColumn2
             // 
             this.dataGridViewTextBoxColumn2.HeaderText = "Value";
-            this.dataGridViewTextBoxColumn2.Name = "Value";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             this.dataGridViewTextBoxColumn2.ReadOnly = true;
             this.dataGridViewTextBoxColumn2.Width = 73;
             // 
@@ -146,7 +148,7 @@
             // 
             this.dataGridViewTextBoxColumn3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.dataGridViewTextBoxColumn3.HeaderText = "Description";
-            this.dataGridViewTextBoxColumn3.Name = "Description";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
             // 
             // lbReadableParameters
@@ -217,7 +219,7 @@
             // 
             // tbOutputWindow
             // 
-            this.tbOutputWindow.Location = new System.Drawing.Point(519, 421);
+            this.tbOutputWindow.Location = new System.Drawing.Point(519, 420);
             this.tbOutputWindow.Multiline = true;
             this.tbOutputWindow.Name = "tbOutputWindow";
             this.tbOutputWindow.ReadOnly = true;
@@ -227,7 +229,7 @@
             // lbOutputWindow
             // 
             this.lbOutputWindow.AutoSize = true;
-            this.lbOutputWindow.Location = new System.Drawing.Point(516, 401);
+            this.lbOutputWindow.Location = new System.Drawing.Point(516, 400);
             this.lbOutputWindow.Name = "lbOutputWindow";
             this.lbOutputWindow.Size = new System.Drawing.Size(104, 17);
             this.lbOutputWindow.TabIndex = 13;
@@ -270,11 +272,31 @@
             this.btnSaveToCsv.UseVisualStyleBackColor = true;
             this.btnSaveToCsv.Click += new System.EventHandler(this.btnSaveToCsv_Click);
             // 
+            // lbConnectionState
+            // 
+            this.lbConnectionState.AutoSize = true;
+            this.lbConnectionState.Location = new System.Drawing.Point(516, 313);
+            this.lbConnectionState.Name = "lbConnectionState";
+            this.lbConnectionState.Size = new System.Drawing.Size(120, 17);
+            this.lbConnectionState.TabIndex = 18;
+            this.lbConnectionState.Text = "Connection State:";
+            // 
+            // tbConnectionState
+            // 
+            this.tbConnectionState.Location = new System.Drawing.Point(519, 333);
+            this.tbConnectionState.Multiline = true;
+            this.tbConnectionState.Name = "tbConnectionState";
+            this.tbConnectionState.ReadOnly = true;
+            this.tbConnectionState.Size = new System.Drawing.Size(319, 56);
+            this.tbConnectionState.TabIndex = 19;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(854, 534);
+            this.Controls.Add(this.tbConnectionState);
+            this.Controls.Add(this.lbConnectionState);
             this.Controls.Add(this.btnSaveToCsv);
             this.Controls.Add(this.btnCheckAvailability);
             this.Controls.Add(this.lbCheckDeviceAvailable);
@@ -328,5 +350,10 @@
         private System.Windows.Forms.Label lbCheckDeviceAvailable;
         private System.Windows.Forms.ComboBox cbCheckDeviceAvailable;
         private System.Windows.Forms.Button btnSaveToCsv;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Value;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Description;
+        private System.Windows.Forms.Label lbConnectionState;
+        private System.Windows.Forms.TextBox tbConnectionState;
     }
 }

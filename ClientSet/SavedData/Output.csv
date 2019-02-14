@@ -1,5 +1,5 @@
 ﻿Readable Parameters
-ID;Value;Description;
+dataGridViewTextBoxColumn1;dataGridViewTextBoxColumn2;dataGridViewTextBoxColumn3;
 2;0;H/W Operate Modus ist aktiv ;
 3;20;Primärstrom;
 4;50;Aktuelle Prüfzeit;

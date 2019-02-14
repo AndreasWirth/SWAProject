@@ -69,7 +69,8 @@ namespace Client
         {
             if (StartupServer())
             {
-                tbOutputWindow.Text = "Welcome. You are sucessfully connected to the server!";
+                tbOutputWindow.Text = "Welcome. Please enter the desired parameters and then request a Firekey.";
+                tbConnectionState.Text = " Your are connected to the server.";
                 btnReleaseFireKey.Enabled = false;
                 btnSendSelCommand.Enabled = false;
                 btnCheckAvailability.Enabled = false;
@@ -116,7 +117,8 @@ namespace Client
                 btnCheckAvailability.Enabled = false;
                 btnSaveToCsv.Enabled = false;
                 btnRequestFireKey.Enabled = false;
-                tbOutputWindow.Text = "connection problem";
+                tbConnectionState.Text = "No Connection...";
+                tbOutputWindow.Text = "Server could not be found.";
             }
         }
 
@@ -214,6 +216,7 @@ namespace Client
                     btnSendSelCommand.Enabled = false;
                     btnCheckAvailability.Enabled = false;
                     tbOutputWindow.Text = "Fire Key was deleted on the server and must therefore be requested again";
+                    tbConnectionState.Text = "Connection lost...";
                 }));
             }
             // Commands können geschrieben werden
@@ -225,7 +228,7 @@ namespace Client
                     // Use invoke for multithreading
                     Invoke(new MethodInvoker(() =>
                     {
-                        tbOutputWindow.Text = "Actual Channel Parameters have been transferred to the server. You are connected to the test bench!";
+                        tbConnectionState.Text = "Actual Channel Parameters have been transferred to the server. You are connected to the test bench!";
                     }));
                 }
                 else
@@ -234,7 +237,7 @@ namespace Client
                     // dürfte nicht eintretten da dieser fehler nur bei einem falschen key auftritt
                     Invoke(new MethodInvoker(() =>
                     {
-                        tbOutputWindow.Text = "Actual Channel Parameters have not been transferred to the server.";
+                        tbConnectionState.Text = "Actual Channel Parameters have not been transferred to the server.";
                     }));
                     
                 }
@@ -253,6 +256,7 @@ namespace Client
                     btnSendSelCommand.Enabled = false;
                     btnCheckAvailability.Enabled = false;
                     tbOutputWindow.Text = "You are currently on place " + queuePosition.ToString() + " in the waiting list";
+                    tbConnectionState.Text = "Wating for Connection to the testing station...";
                 }));
             }
         }
@@ -317,6 +321,7 @@ namespace Client
             {
                 DeleateFireKey();
                 tbOutputWindow.Text = "Fire Key has been released";
+                tbConnectionState.Text = " Your are connected to the server.";
                 if (myKey == null) {
                     btnReleaseFireKey.Enabled = false;
                     btnRequestFireKey.Enabled = true;
@@ -380,6 +385,7 @@ namespace Client
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             //TODO: Check Changed Parameter and rechange it if necessary
+            //         Additional information like boudnaries are needed in Parameter Object
         }
 
         private void btnSaveToCsv_Click(object sender, EventArgs e)
@@ -441,5 +447,6 @@ namespace Client
                 tbOutputWindow.Text = "Your file was generated and its ready for use.";
             }
         }
+
     }
 }
