@@ -14,6 +14,7 @@ namespace Storage   //changed namespace, to show its managed from host
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)] // singleton
     class HWManager : IRemoteHandler.IRemoteGetSet
     {
+        private string repeadedMeassageTab = "  --";
         private bool displayLog = true;
         private bool fileLog = false;
 
@@ -213,7 +214,7 @@ namespace Storage   //changed namespace, to show its managed from host
         /// <returns>position in List</returns>
         public int RenewFireKey(int key)
         {
-            DisplayMessage("RenewFireKey requested with key: " + key.ToString());
+            DisplayMessage(repeadedMeassageTab+"RenewFireKey requested with key: " + key.ToString());
             int pos=-1;
             foreach (FireKey IterationKey in QueuedFireKeys)
             {
@@ -225,11 +226,11 @@ namespace Storage   //changed namespace, to show its managed from host
             }
             if (pos > -1)
             {
-                DisplayMessage("key renewed on position " + pos.ToString());
+                DisplayMessage(repeadedMeassageTab+"key renewed on position " + pos.ToString());
             }
             else
             {
-                DisplayMessage("key not in List");
+                DisplayMessage(repeadedMeassageTab+"key not in List");
             }
             
             return pos;
