@@ -27,7 +27,6 @@ namespace Client
             InitializeComponent();
         }
 
-        private bool toggle = true;
         private void button1_Click(object sender, EventArgs e)
         {
             List<Parameter> testWrite = new List<Parameter>();
@@ -36,20 +35,7 @@ namespace Client
             testWrite.Add(new Parameter("3", true, "Abschneidestrecke automatisch einstellen"));
             testWrite.Add(new Parameter("4", false, "Polaritätsvorwahl"));
             testWrite.Add(new Parameter("5", false, "Ladespannung"));
-
-            if (toggle)
-            {
-                RequestFireKey();
-                toggle = !toggle;
-            }
-            else
-            {
-                ReleaseKey();
-                toggle = !toggle;
-            }
-
            
-            /*
             var writeablePara = m_remote.GetWriteAbleParameterList();
             var readablePara = m_remote.GetReadableParameterList();
             var actChannelPara = m_remote.GetActChannelPara();
@@ -77,7 +63,6 @@ namespace Client
 
             m_remote.ReleaseKey(fireKey + 1);
             m_remote.ReleaseKey(fireKey);
-            */
         }
 
         private void Main_Load(object sender, EventArgs e)
