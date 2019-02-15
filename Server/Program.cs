@@ -27,6 +27,9 @@ namespace Server
 
             // keeping server open
             Console.WriteLine("enter faceroll for closing");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
             Console.ReadLine();
 
             //close the Service

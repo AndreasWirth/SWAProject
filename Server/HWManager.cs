@@ -16,7 +16,7 @@ namespace Storage   //changed namespace, to show its managed from host
     {
         private string repeadedMeassageTab = "  --";
         private bool displayLog = true;
-        private bool fileLog = false;
+        private bool fileLog = true;
 
         #region DataMembers
         private int refValue = 0;

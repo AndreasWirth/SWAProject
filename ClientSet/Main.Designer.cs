@@ -289,6 +289,7 @@
             this.tbConnectionState.ReadOnly = true;
             this.tbConnectionState.Size = new System.Drawing.Size(319, 56);
             this.tbConnectionState.TabIndex = 19;
+            this.tbConnectionState.TextChanged += new System.EventHandler(this.tbConnectionState_TextChanged);
             // 
             // Main
             // 

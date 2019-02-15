@@ -15,6 +15,7 @@ namespace Client
 {
     public partial class Main : Form
     {
+        private System.Timers.Timer RefreshTimer = new System.Timers.Timer(10000);
         const string PathSavedData = @"..\..\SavedData\";
         private IRemoteGetSet m_remote;
         private FireKey myKey = null;
@@ -120,6 +121,10 @@ namespace Client
                 tbConnectionState.Text = "No Connection...";
                 tbOutputWindow.Text = "Server could not be found.";
             }
+            // init gui timer
+            this.RefreshTimer.Elapsed += RefreshTimer_Elapsed;
+            this.RefreshTimer.AutoReset = false;
+            this.RefreshTimer.Enabled = true;
         }
 
         private string[] GetStrings(string[] commands, List<Parameter> list)
@@ -228,7 +233,7 @@ namespace Client
                     // Use invoke for multithreading
                     Invoke(new MethodInvoker(() =>
                     {
-                        tbConnectionState.Text = "Actual Channel Parameters have been transferred to the server. You are connected to the test bench!";
+                        tbConnectionState.Text = "Actual Channel Parameters have been transferred to the server. You are connected to the testing station!";
                     }));
                 }
                 else
@@ -448,5 +453,22 @@ namespace Client
             }
         }
 
+        
+        private void tbConnectionState_TextChanged(object sender, EventArgs e)
+        {
+            // restart timer
+            RefreshTimer.Stop();
+            RefreshTimer.Start();
+        }
+
+        private void RefreshTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            // Use invoke for multithreading
+            Invoke(new MethodInvoker(() =>
+            {
+                tbOutputWindow.Clear();
+            }));
+            RefreshTimer.Stop();
+        }
     }
 }
